@@ -12,7 +12,7 @@ function Box() {
   return (
     <mesh ref={mesh}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <meshStandardMaterial attach="material" />
+      <meshStandardMaterial attach="material" color="lightblue" />
     </mesh>
   );
 }
@@ -20,7 +20,8 @@ function Box() {
 function App() {
   return (
     <>
-      <Canvas>
+      <Canvas camera={{ position: [-5, 2, 10], fov: 20}}>
+        <ambientLight intensity={0.3} />
         <Box />
       </Canvas>
     </>
