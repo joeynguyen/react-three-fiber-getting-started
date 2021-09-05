@@ -1,8 +1,11 @@
 import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { MeshWobbleMaterial, OrbitControls, softShadows } from '@react-three/drei';
 import './App.scss';
 
-function SpinningMesh({ position, color, args }) {
+softShadows();
+
+function SpinningMesh({ position, color, args, speed }) {
   const mesh = useRef(null);
 
   // useFrame can't be used inside App component (or the component being displayed)
@@ -12,7 +15,12 @@ function SpinningMesh({ position, color, args }) {
   return (
     <mesh castShadow position={position} ref={mesh}>
       <boxBufferGeometry attach="geometry" args={args} />
-      <meshStandardMaterial attach="material" color={color} />
+      <MeshWobbleMaterial
+        attach="material"
+        color={color}
+        speed={speed}
+        factor={0.6}
+      />
     </mesh>
   );
 }
@@ -50,11 +58,12 @@ function App() {
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
             <shadowMaterial attach="material" opacity={0.3} />
           </mesh>
+          <SpinningMesh speed={2} position={[0, 1, 0]} color="lightblue" args={[3, 2, 1]} />
+          <SpinningMesh speed={6} position={[-2, 1, -5]} color="pink" />
+          <SpinningMesh speed={6} position={[5, 1, -2]} color="pink" />
         </group>
 
-        <SpinningMesh position={[0, 1, 0]} color="lightblue" args={[3, 2, 1]} />
-        <SpinningMesh position={[-2, 1, -5]} color="pink" />
-        <SpinningMesh position={[5, 1, -2]} color="pink" />
+        <OrbitControls />
       </Canvas>
     </>
   );
